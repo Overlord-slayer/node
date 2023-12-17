@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const { logger } = require('./middleware/logEvents')
 const { errorHandler } = require('./middleware/errorHandler')
+const corsOptions = require('./config/corsOptions')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -11,24 +12,10 @@ const PORT = process.env.PORT || 3000
 // custom middleware logger
 app.use(logger)
 // Cross origin resources sharing
-const whiteList = ['https://www.yoursite.com', 'http://127.0.0.1:5500', 'http://localhosr:3000']
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whiteList.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  optionsSuccessStatus: 200
-}
+
 app.use(cors(corsOptions))
 
-/**
- * built-in middleware to handle urlenconded data
- * in other words, form data:
- * 'content-type': application/x-www-form-urlencoded
- */
+// * built-in middleware to handle urlenconded data form data
 app.use(express.urlencoded({ extended: false }))
 
 // built-in middleware for json
@@ -36,11 +23,9 @@ app.use(express.json())
 
 // serve static files
 app.use('/', express.static(path.join(__dirname, '/public')))
-app.use('/subdir', express.static(path.join(__dirname, '/public')))
 
 // routes
 app.use('/', require('./routes/root'))
-app.use('/subdir', require('./routes/subdir'))
 app.use('/employees', require('./routes/api/employees'))
 
 

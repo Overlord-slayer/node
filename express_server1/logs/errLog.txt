@@ -1,1 +1,4 @@
 20231216	22:04:07	fcceb551-63fb-41e4-a226-36fe63a410c3	Error: Not allowed by CORS
+20231217	15:58:37	23331be0-7531-47ca-b486-18bb014c7ec7	TypeError: res.status(...).kjson is not a function
+20231217	15:59:48	0cae83a1-0a0a-4b7b-81f9-8f4edd74e2f9	ReferenceError: parseInte is not defined
+20231217	16:00:49	e2cb69f2-adef-4f06-b019-7c0ab5f3e9b4	TypeError: Cannot read properties of undefined (reading 'find')
