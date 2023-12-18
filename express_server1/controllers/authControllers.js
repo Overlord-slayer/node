@@ -21,9 +21,16 @@ const handlerLogin = async (req, res) => {
   const match = await bcrypt.compare(pwd, foundUser.password)
 
   if (match) {
+    const roles = Object.values(foundUser.roles)
     // create JWTs
     const accessToken = jwt.sign(
-      { "username": foundUser.username },
+      { 
+        "UserInfo": 
+        {
+          "username": foundUser.username,
+          "roles":roles
+        }
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '30s' }
     )
@@ -40,6 +47,11 @@ const handlerLogin = async (req, res) => {
       path.join(__dirname, '..', 'model', 'users.json'),
       JSON.stringify(usersDB.users)
     )
+
+    /**
+     * No tomar en cuenta secure, o la cookie no funcionara bien.
+     * Esto si se esta testeando el refreshEndpoint con el refrehCookie
+     */
     res.cookie(
       'jwt',
       refreshToken,
